@@ -22,7 +22,7 @@ class Solution:
         """
         q = Queue()
         q.put(root)
-        
+
         res = []
         while not q.empty():
             now = q.get()
@@ -38,5 +38,5 @@ class Solution:
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
     def test(*args):
         print('测试: ', *args,
-              '\n结果: ', Solution().preorderTraversal(*args), end='\n-----\n')
-
+              '\n结果: ', Solution().preorderTraversal(*args),
+              end='\n-----\n')
