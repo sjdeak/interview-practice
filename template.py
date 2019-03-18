@@ -7,7 +7,7 @@ from operator import itemgetter
 from functools import wraps, cmp_to_key
 from itertools import count, combinations, permutations
 from collections import namedtuple, defaultdict, Counter
-
+from queue import Queue
 
 ##CODE##
 
