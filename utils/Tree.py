@@ -27,6 +27,11 @@ def bfsTraversal(root, func):
     q.put(now.right)
 
 def array2TreeNode(arr):
+  """
+  把层序遍历再模拟一遍 凭借arr填充树的数据和维持遍历
+  :param arr: 层序遍历结果
+  :return: TreeNode root
+  """
   if not len(arr):
     return None
 
@@ -34,19 +39,23 @@ def array2TreeNode(arr):
   q = Queue()
   q.put((0, root))
 
+  ind = 0
+
   while not q.empty():
     i, now = q.get()
     print('(i, now)', (i, now))
     if not now:
       continue
 
-    leftI, rightI = 2 * i + 1, 2 * i + 2
+    leftI = ind + 1
     if leftI < len(arr) and arr[leftI] is not None:
       now.left = TreeNode(arr[leftI])
       q.put((leftI, now.left))
+    rightI = ind + 2
     if rightI < len(arr) and arr[rightI] is not None:
       now.right = TreeNode(arr[rightI])
       q.put((rightI, now.right))
+    ind += 2
 
   return root
 
@@ -56,4 +65,6 @@ if __name__ == '__main__':
     root = array2TreeNode(arr)
     bfsTraversal(root, lambda nd: print(nd.val))
 
-  test([1, None, 2, 3])
+  # test([1, None, 2, 3])
+  # test([5,4,7,3,None,2,None,-1,None,9])
+  test([1,None,2,3])
