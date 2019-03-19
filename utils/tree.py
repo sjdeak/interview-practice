@@ -14,6 +14,20 @@ def preorderTraversal(node, func):
   preorderTraversal(node.left, func)
   preorderTraversal(node.right, func)
 
+def inorderTraversal(node, func):
+  if not node:
+    return
+  inorderTraversal(node.left, func)
+  func(node)
+  inorderTraversal(node.right, func)
+
+def postorderTraversal(node, func):
+  if not node:
+    return
+  postorderTraversal(node.left, func)
+  postorderTraversal(node.right, func)
+  func(node)
+
 def bfsTraversal(root, func):
   q = Queue()
   q.put(root)
