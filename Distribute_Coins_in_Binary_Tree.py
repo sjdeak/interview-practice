@@ -36,14 +36,14 @@ def move(a, b, direction, nodes, step):
   a.val -= direction
   b.val += direction
 
-
-ans = 10 ** 10
 nodes = []
 ignoredups = set()
+ans = 10 ** 10
 
 def dfs(nodes, step):
   coins = []
   bfsTraversal(nodes[0], lambda n: coins.append(n.val)) # todo 一下子写太多了，分块测试
+  print('step:', step, '; coins:', coins)
 
   tcoins = tuple(coins)
   if tcoins in ignoredups:
@@ -55,8 +55,7 @@ def dfs(nodes, step):
     return
 
   if all([c == 1 for c in coins]):
-    if step < ans:
-      ans = step
+    ans = min(step, ans)
     return
 
   for nd in nodes:
@@ -69,18 +68,20 @@ def dfs(nodes, step):
         move(nd, nd.right, -1, nodes, step)
 
 
+
 class Solution:
   def distributeCoins(self, root) -> int:
-    bfsTraversal(root, lambda nd: nodes.append(nd))
+    bfsTraversal(root, lambda nd: nodes.append(nd)) # nodes: [TreeNode1, TreeNode2, ...]
     dfs(nodes, 0)
     return ans
 
 
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
+  from utils.tree import TreeNode, array2TreeNode
+
   def test(*args):
     print('输入数据: ', *args)
     print('结果: ', Solution().distributeCoins(*args), end='\n-----\n')
 
 
-    test()
-    test()
+  test(array2TreeNode([3,0,0]))
