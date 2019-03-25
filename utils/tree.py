@@ -40,12 +40,15 @@ def bfsTraversal(root, func):
     q.put(now.left)
     q.put(now.right)
 
-def array2TreeNode(arr):
+
+def array2TreeNode(string):
   """
   把层序遍历再模拟一遍 凭借arr填充树的数据和维持遍历
-  :param arr: 层序遍历结果
+  :param string: 层序遍历结果字符串
   :return: TreeNode root
   """
+  arr = [None if val == 'null' else int(val) for val in string.strip("[]{}").split(',')]
+
   if not len(arr):
     return None
 

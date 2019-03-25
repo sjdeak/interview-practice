@@ -30,16 +30,21 @@ def move(a, b, step):
   a.val += 1
   b.val -= 1
 
-nodes = []
-ignoredups = {}
-ans = 10 ** 10
+
+# leetcode 需要自己清理数据
+def refreshGlobals():
+  global nodes, ignoredups, ans
+  nodes = []
+  ignoredups = {}
+  ans = 10 ** 10
+
 
 def dfs(nodes, step):
   global ans
   coins = []
   bfsTraversal(nodes[0], lambda n: coins.append(n.val))
 
-  print('step:', step, '; coins:', coins)
+  # print('step:', step, '; coins:', coins)
 
   # keypoint: 需要细致的判重  如果步数多的走法到达过某一点，不是说就不允许步数小的走法再经过那一点了
   tcoins = tuple(coins)
@@ -70,21 +75,27 @@ def dfs(nodes, step):
       move(nd.right, nd, step)  # nd.right → nd
 
 
+refreshGlobals()
+
 class Solution:
   def distributeCoins(self, root) -> int:
     bfsTraversal(root, lambda nd: nodes.append(nd)) # nodes: [TreeNode1, TreeNode2, ...]
     dfs(nodes, 0)
-    return ans
+    ret = ans
+    refreshGlobals()
+
+    return ret
 
 
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
-  from utils.tree import array2TreeNode
+  from utils.tree import TreeNode, array2TreeNode
 
   def test(*args):
     print('输入数据: ', *args)
     print('结果: ', Solution().distributeCoins(*args), end='\n-----\n')
 
   # test(array2TreeNode([3,0,0]))
-  test(array2TreeNode([0, 3, 0]))
+  # test(array2TreeNode('[0, 3, 0]'))
   # test(array2TreeNode([1,0,2]))
-  # test(array2TreeNode([1,0,0,None,3]))
+  # test(array2TreeNode('[1,0,0,null,3]'))
+  test(array2TreeNode('[0,6,0,null,0,null,0,null,null,0]'))

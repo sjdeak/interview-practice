@@ -9,6 +9,11 @@ from itertools import count, combinations, permutations
 from collections import namedtuple, defaultdict, Counter
 from queue import Queue
 
+def refreshGlobals():
+  pass
+
+refreshGlobals()
+
 ##CODE##
 
 
