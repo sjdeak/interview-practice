@@ -20,33 +20,34 @@ dx = (-1, 1, 0, 0)
 dy = (0, 0, -1, 1)
 
 
-# 以now为起点进行连通集探索
+# 以 now 为起点进行连通集探索
 def dfs(now, A, group, vis):
   vis[now] = True  # 打卡
-  nx, ny = now
+  nowR, nowC = now
   for i in range(4):
-    x, y = nx + dx[i], ny + dy[i]
+    nextR, nextC = nowR + dx[i], nowC + dy[i]
 
-    if not ((0 <= y < len(A[0])) and (0 <= x < len(A))):
+    if not ((0 <= nextC < len(A[0])) and (0 <= nextR < len(A))):
       group.add('canWalkOff')
       continue
 
-    if A[x][y] == 1 and not vis[(x, y)]:
-      print('nx, ny, x, y', nx, ny, x, y)
-      group.add((x, y))
-      dfs((x, y), A, group, vis)
+    if A[nextR][nextC] == 1 and not vis[(nextR, nextC)]:
+      print('nowR, nowC, nextR, nextC', nowR, nowC, nextR, nextC)
+      group.add((nextR, nextC))
+      dfs((nextR, nextC), A, group, vis)
 
 
 class Solution:
   def numEnclaves(self, A):  # -> int
     sets = []
-    vis = defaultdict(bool)
-    for i in range(len(A)):
-      for j in range(len(A[0])):
-        if A[i][j] and not vis[(i, j)]:
-          group = {(i, j)}
+    vis = defaultdict(bool)  # 判重用哈希表
+    R, C = len(A), len(A[0])
+    for r in range(R):
+      for c in range(C):
+        if A[r][c] and not vis[(r, c)]:
+          group = {(r, c)}
           sets.append(group)
-          dfs((i, j), A, group, vis)
+          dfs((r, c), A, group, vis)
 
     ans = 0
     for s in sets:

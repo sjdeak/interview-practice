@@ -27,3 +27,5 @@ if __name__ == '__main__' and ('SJDEAK' in os.environ):
 
   test()
   test()
+else:
+  print = lambda *args, **kwargs: None
