@@ -20,19 +20,10 @@ dx = (-1, 1, 0, 0)
 dy = (0, 0, -1, 1)
 
 
-def dfs(now, A, sets):
+# 以now为起点进行连通集探索
+def dfs(now, A, group, vis):
+  vis[now] = True  # 打卡
   nx, ny = now
-  group = None
-  print('nx, ny, sets', nx, ny, sets)
-  if not any([now in s for s in sets]):
-    print('new group')
-    group = {now}
-    sets.append(group)
-  else:
-    for s in sets:
-      if now in s:
-        group = s
-
   for i in range(4):
     x, y = nx + dx[i], ny + dy[i]
 
@@ -40,19 +31,23 @@ def dfs(now, A, sets):
       group.add('canWalkOff')
       continue
 
-    if A[x][y] == 1 and not (x, y) in group:
+    if A[x][y] == 1 and not vis[(x, y)]:
       print('nx, ny, x, y', nx, ny, x, y)
       group.add((x, y))
-      dfs((x, y), A, sets)
+      dfs((x, y), A, group, vis)
 
 
 class Solution:
   def numEnclaves(self, A):  # -> int
     sets = []
+    vis = defaultdict(bool)
     for i in range(len(A)):
       for j in range(len(A[0])):
-        if A[i][j]:
-          dfs((i, j), A, sets)
+        if A[i][j] and not vis[(i, j)]:
+          group = {(i, j)}
+          sets.append(group)
+          dfs((i, j), A, group, vis)
+
     ans = 0
     for s in sets:
       if not 'canWalkOff' in s:
