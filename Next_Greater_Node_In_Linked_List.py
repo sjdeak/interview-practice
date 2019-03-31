@@ -25,17 +25,32 @@ def linkList2Array(node):
   return res
 
 
-# TLE: Next Greater Node In Linked List
+def getNextLarger(i, arr, nextLargerIndexArr):
+  now = i + 1
+  while now != -1:
+    if arr[now] > arr[i]:
+      return now
+    now = nextLargerIndexArr[now]
+  return -1
+
+
 class Solution:
   def nextLargerNodes(self, head):  # -> List[int]
     arr = linkList2Array(head)
     length = len(arr)
-    ans = [0] * length
-    for i, n in enumerate(arr):
-      for j in range(i + 1, length):
-        if arr[j] > n:
-          ans[i] = arr[j]
-          break
+    if length == 1:
+      return [0]
+
+    nextLargerIndexArr = [0] * length  # 最后放最终结果 [next_larger(i), ...]
+
+    nextLargerIndexArr[length - 1] = -1
+    for i in range(length - 2, -1, -1):
+      nextLargerIndexArr[i] = getNextLarger(i, arr, nextLargerIndexArr)
+    # print('nextLargerIndexArr', nextLargerIndexArr)
+
+    ans = [arr[index] if index != -1 else 0 for index in nextLargerIndexArr]
+    # print('ans', ans)
+
     return ans
 
 

@@ -32,7 +32,6 @@ for i, user in enumerate(users):
 
 sets = []
 
-
 def dfs(now):
   group = None
   if not any([now in s for s in sets]):
