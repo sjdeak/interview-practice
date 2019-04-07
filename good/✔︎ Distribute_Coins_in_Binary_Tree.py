@@ -36,7 +36,7 @@ def refreshGlobals():
   global nodes, ignoredups, ans
   nodes = []
   ignoredups = {}
-  ans = 10 ** 10
+  ans = 10 ** 20
 
 
 def dfs(nodes, step):
