@@ -11,27 +11,9 @@ from collections import namedtuple, defaultdict, Counter
 from queue import Queue
 
 
-def refreshGlobals():
-  pass
-
-
-refreshGlobals()
-
-
-def binarySearch(nums, target):
-  """
-  :type nums: List[int]
-  :type target: int
-  :type check: function 判断是否找到
-  :rtype: int
-  """
-  if len(nums) == 0:
-    return -1
-
-  left, right = 0, len(nums) - 1
+def binarySearch(left, right, target):
   while left <= right:
     mid = (left + right) // 2
-    # if check(mid, target):
     if mid ** 2 <= target <= (mid + 1) ** 2:
       return mid
     elif mid ** 2 < target:
@@ -39,18 +21,15 @@ def binarySearch(nums, target):
     else:
       right = mid - 1
 
-  # End Condition: left > right
   return -1
-
-
-def check(i, target):
-  return i ** 2 <= target <= (i + 1) ** 2
 
 
 class Solution:
   def mySqrt(self, x):  # -> int
-    # todo MLE
-    return binarySearch(list(range(x + 1)), x)
+    if x == 1:
+      return 1
+
+    return binarySearch(0, x, x)
 
 
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
@@ -64,10 +43,13 @@ if __name__ == '__main__' and ('SJDEAK' in os.environ):
 
   test(8)
   test(2)
+  test(0)
+  test(1)
 else:
   print = lambda *args, **kwargs: None
 
-"""
+# todo
+""" 如何写出通用的二分查找模板?
 left, right
 A[mid] == target
 """
