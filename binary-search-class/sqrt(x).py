@@ -11,24 +11,19 @@ from collections import namedtuple, defaultdict, Counter
 from queue import Queue
 
 
+# 其实是要找upper_bound
 def binarySearch(left, right, target):
-  while left <= right:
-    mid = (left + right) // 2
-    if mid ** 2 <= target <= (mid + 1) ** 2:
-      return mid
-    elif mid ** 2 < target:
-      left = mid + 1
-    else:
+  while left < right:
+    mid = right - (right - left) // 2
+    if mid ** 2 > target:
       right = mid - 1
-
-  return -1
+    else:
+      left = mid
+  return left
 
 
 class Solution:
   def mySqrt(self, x):  # -> int
-    if x == 1:
-      return 1
-
     return binarySearch(0, x, x)
 
 
@@ -43,6 +38,7 @@ if __name__ == '__main__' and ('SJDEAK' in os.environ):
 
   test(8)
   test(2)
+  test(9)
   test(0)
   test(1)
 else:
