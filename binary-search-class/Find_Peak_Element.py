@@ -1,0 +1,55 @@
+# https://leetcode.com/explore/learn/card/binary-search/126/template-ii/948/
+import os, sys, shutil, glob, re
+import time, calendar
+from datetime import datetime, timezone
+import hashlib, zipfile, zlib
+from math import *
+from operator import itemgetter
+from functools import wraps, cmp_to_key
+from itertools import count, combinations, permutations
+from collections import namedtuple, defaultdict, Counter
+from queue import Queue
+
+
+def refreshGlobals():
+  pass
+
+
+refreshGlobals()
+
+
+class Solution(object):
+  def findPeakElement(self, nums):
+    """
+    :type nums: List[int]
+    :rtype: int
+    """
+    length = len(nums)
+    if length < 3:
+      return max(nums)
+
+    left, right = 0, length - 1
+    while left + 2 <= right:
+      mid = left + (right - left) // 2
+      print('left, mid, right:', left, mid, right)
+      if nums[mid] > nums[left] and nums[mid] > nums[mid + 1]:
+        right = mid
+      elif nums[mid] > nums[right] and nums[mid] > nums[mid - 1]:
+        left = mid
+
+    return max(nums[left], nums[right])
+
+
+if __name__ == '__main__' and ('SJDEAK' in os.environ):
+  from utils.tree import TreeNode, array2TreeNode
+
+
+  def test(*args):
+    print('输入数据: ', *args)
+    print('结果: ', Solution().findPeakElement(*args), end='\n-----\n')
+
+
+  test([1, 2, 3, 1])
+  test([1, 2, 1, 3, 5, 6, 4])
+else:
+  print = lambda *args, **kwargs: None
