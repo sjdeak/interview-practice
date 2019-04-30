@@ -25,20 +25,18 @@ class Solution(object):
     :rtype: int
     """
     length = len(nums)
-    if length < 3:
+    if length < 2:
       return nums.index(max(nums))
 
     left, right = 0, length - 1
-    while left + 2 <= right:
+    while left + 1 <= right:
       mid = left + (right - left) // 2
-      print('left, mid, right:', left, mid, right)
-      if nums[mid] > nums[mid - 1]:
-        right = mid
-      else:
-        right = mid - 1
+      # print('left, mid, right:', left, mid, right)
 
+      # 这种实现找到的Peak是偏右的
+      # 如果是mid和mid-1比较，找到的Peak就会偏左
       if nums[mid] > nums[mid + 1]:
-        left = mid
+        right = mid
       else:
         left = mid + 1
 
