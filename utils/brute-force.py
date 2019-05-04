@@ -38,3 +38,15 @@ def dfs(nodes, step):
   # 移动
   for nd in nodes:
     pass
+
+
+def subsetEnumerate(cnt):  # 不推荐使用，可以直接用库
+  for sub in range((1 << cnt)):  # 000 001 ... 111
+    print('sub, bin(sub):', sub, bin(sub))
+
+    for i in range(cnt):
+      print('i:', i)
+      if (1 << i) & sub:
+        pass
+      else:
+        pass
