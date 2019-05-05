@@ -22,18 +22,12 @@ refreshGlobals()
 class Solution:
   def letterCasePermutation(self, S):  # -> List[str]
     # 建立alphaMaps: 第i个出现的字符 → 在S中的下标
-    # AC后反思 这种实现方法太复杂了，有更简洁的方案
-    alphaMaps = []
-    for i, ch in enumerate(S):
-      if ch.isalpha():
-        alphaMaps.append(i)
-    print('alphaMaps:', alphaMaps)
-
-    ans = []
+    alphaMaps = [i for i, ch in enumerate(S) if ch.isalpha()]
     alphaCnt = len(alphaMaps)
     if alphaCnt == 0:
       return [S]
 
+    ans = []
     for sub in range((1 << alphaCnt)):  # 000 001 ... 111
       print('sub, bin(sub), sub.bit_length():', sub, bin(sub), sub.bit_length())
 
