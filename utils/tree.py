@@ -7,6 +7,8 @@ class TreeNode:
     self.left = None
     self.right = None
 
+
+# region Traversal
 def preorderTraversal(node, func):
   if not node:
     return
@@ -39,6 +41,12 @@ def bfsTraversal(root, func):
     func(now)
     q.put(now.left)
     q.put(now.right)
+
+
+# endregion
+
+def isLeaf(node):
+  return (not node.left) and (not node.right)
 
 
 def array2TreeNode(string):
