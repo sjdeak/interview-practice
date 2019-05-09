@@ -22,17 +22,19 @@ def getAdditionalTriangle(nowS, i):
   计算新增下标为i的节点后，增加的value
   """
   s = bin(nowS)[2:]
-  i = len(s) - 1 - i
+  length = len(s)
+  i = length - 1 - i
   adjacents = []
   for k in range(1, 50 + 1):
-    li, ri = i - k, i + k
-    if li in range(len(s)) and s[li] == '1':
+    li = (i - k + length) % length
+    if s[li] == '1':
       adjacents.append(li)
-    if len(adjacents) == 2:
       break
-    if ri in range(len(s)) and s[ri] == '1':
+
+  for k in range(1, 50 + 1):
+    ri = (i + k) % length
+    if s[ri] == '1':
       adjacents.append(ri)
-    if len(adjacents) == 2:
       break
 
   return adjacents + [i]
@@ -49,7 +51,7 @@ class Solution:
       s = int('0b' + ''.join(perm), 2)
       dp[s, 1] = value
       queues[1].append((s, 1))
-    # print('initial dp:', dp)
+    print('initial dp:', dp)
 
     for x in range(1, length - 2):
       while queues[x]:
@@ -59,7 +61,9 @@ class Solution:
           if not (1 << i) & nowS:
             nextS = nowS | (1 << i)
             nextValue = dp[now] + getValue(A, getAdditionalTriangle(nowS, i))
-            print('nextS, nextValue:', bin(nextS), nextValue)
+
+            # print('nowS:', bin(nowS))
+            # print('nextS, nextValue:', bin(nextS), nextValue, end='\n------\n')
             if nextValue < dp[nextS, nowN + 1]:
               dp[nextS, nowN + 1] = nextValue
               queues[x + 1].append((nextS, nowN + 1))
@@ -80,5 +84,6 @@ if __name__ == '__main__' and ('SJDEAK' in os.environ):
   test([1, 2, 3])
   test([3, 7, 4, 5])
   test([1, 3, 1, 4, 1, 5])
+  test([4, 3, 1, 3])
 else:
   print = lambda *args, **kwargs: None
