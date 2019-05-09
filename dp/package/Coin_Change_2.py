@@ -20,14 +20,16 @@ refreshGlobals()
 
 
 def packageInfinite(nums, targetSum):
+  if not nums:
+    return 1 if targetSum == 0 else 0
   dp = defaultdict(int)
   length = len(nums)
-  dp.update({(i, 0): 1 for i in range(length)})
+
   for k in range(targetSum // nums[0] + 1):
     dp[(0, k * nums[0])] = 1
 
   for i in range(1, length):
-    for s in range(1, targetSum + 1):
+    for s in range(targetSum + 1):
 
       methodsCnt = 0
       for k in range(s // nums[i] + 1):
