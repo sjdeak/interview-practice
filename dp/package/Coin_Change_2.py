@@ -9,26 +9,15 @@ from functools import wraps, cmp_to_key, reduce
 from itertools import count, combinations, permutations
 from collections import namedtuple, defaultdict, Counter, deque
 from queue import Queue
-from bisect import bisect_left, bisect_right
-
-
-def refreshGlobals():
-  pass
-
-
-refreshGlobals()
-
 
 def packageInfinite(nums, targetSum):
   if not nums:
     return 1 if targetSum == 0 else 0
-  dp = defaultdict(int)
   length = len(nums)
+  dp = defaultdict(int)
+  dp[-1, 0] = 1
 
-  for k in range(targetSum // nums[0] + 1):
-    dp[(0, k * nums[0])] = 1
-
-  for i in range(1, length):
+  for i in range(length):
     for s in range(targetSum + 1):
 
       methodsCnt = 0
@@ -36,7 +25,7 @@ def packageInfinite(nums, targetSum):
         methodsCnt += dp[i - 1, s - k * nums[i]]
       dp[i, s] = methodsCnt
 
-  print('dp', dp)
+  # print('dp', dp)
   return dp[length - 1, targetSum]
 
 
