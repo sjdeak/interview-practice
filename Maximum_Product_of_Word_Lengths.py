@@ -34,14 +34,22 @@ def hasSameCh(s1, s2):
   return ans
 
 
+def toBits(s):
+  res = 0
+  for ch in s:
+    res |= 1 << (ord(ch) - ord('a'))
+  return res
+
+
 class Solution:
-  # 时间复杂度 O(n^2*?)
+  # 依靠位运算 时间复杂度才能降到 O(n^2)
   def maxProduct(self, words):  # -> int
+    wordsBits = list(map(toBits, words))
     lengths = list(map(len, words))
     return max([lengths[i] * lengths[j]
                 for i in range(len(words))
                 for j in range(i + 1, len(words))
-                if not hasSameCh(words[i], words[j])] or [0])
+                if not wordsBits[i] & wordsBits[j]] or [0])  # 位运算发挥优势的地方 O(1)完成集合的交
 
 
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
