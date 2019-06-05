@@ -9,7 +9,10 @@ from itertools import count, combinations, permutations
 from collections import namedtuple, defaultdict, Counter, deque
 from queue import Queue
 from bisect import bisect_left, bisect_right
+
+
 class CustomException(Exception): pass
+
 
 if os.getenv('SJDEAK'):
   sys.stdin = open(os.path.expanduser('./in.txt'))
@@ -19,4 +22,7 @@ else:
   debug = lambda *args, **kwargs: None
 
 if __name__ == '__main__':
-  pass
+  T = int(input())
+  for caseIndex in range(T):
+    R, C, K = map(int, input().split())
+    thickness = [list(map(int, input().split())) for r in range(R)]
