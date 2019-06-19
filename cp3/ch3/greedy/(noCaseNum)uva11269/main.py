@@ -14,10 +14,9 @@ if os.getenv('SJDEAK'):
 
 if __name__ == '__main__':
   for caseIndex in count(1):
-    N, D, R = list(map(int, input().split()))
-    if not N: break
-    mornings = sorted(list(map(int, input().split())), reverse=True)
-    nights = sorted(list(map(int, input().split())))
+    [N] = list(map(int, input().split()))
+    tas = sorted(list(map(int, input().split())))
+    tbs = sorted(list(map(int, input().split())))
 
     ans = 0
     used = set()

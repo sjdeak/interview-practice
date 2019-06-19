@@ -1,8 +1,6 @@
 # ##URL##
-import os, sys, shutil, glob, re
-import time, calendar
-from datetime import datetime, timezone
-import hashlib, zipfile, zlib
+import os, sys, re
+sys.setrecursionlimit(1000000)
 from math import *
 from operator import itemgetter
 from functools import wraps, cmp_to_key, reduce, lru_cache
@@ -10,7 +8,7 @@ from itertools import count, combinations, permutations
 from collections import namedtuple, defaultdict, Counter, deque
 from queue import Queue
 from bisect import bisect_left, bisect_right
-
+sys.setrecursionlimit(1000000)
 ##CODE##
 
 
