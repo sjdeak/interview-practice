@@ -1,6 +1,5 @@
 # ##URL##
 import os, sys, re
-sys.setrecursionlimit(1000000)
 from math import *
 from operator import itemgetter
 from functools import wraps, cmp_to_key, reduce, lru_cache
