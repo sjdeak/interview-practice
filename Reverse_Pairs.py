@@ -12,21 +12,36 @@ from bisect import bisect_left, bisect_right
 sys.setrecursionlimit(1000000)
 
 
-# 复杂度 O(nlog^2n)
-# WA但通过大部分用例
-def mergeAndCountReversePair(A1, A2, cmp=operator.lt):
+# TLE
+def mergeAndCountReversePair(A1, A2):
   i1, i2 = 0, 0
   len1, len2 = len(A1), len(A2)
   res = []
   cnt = 0  # A1, A2间相对的逆序对数
   while i1 < len1 or i2 < len2:
     n1, n2 = A1[i1] if i1 != len1 else inf, A2[i2] if i2 != len2 else inf
+    if n1 <= n2:
+      res.append(n1)
+      i1 += 1
+      cnt += i2
+    else:
+      res.append(n2)
+      i2 += 1
+
+  # print('A1, A2, cnt:', A1, A2, cnt)
+  return cnt, res
+
+
+def mergeAndCountImportantReversePair(A1, A2, cmp=operator.lt):
+  i1, i2 = 0, 0
+  len1, len2 = len(A1), len(A2)
+  res = []
+  cnt, dummy = mergeAndCountReversePair(list(map(lambda n: n / 2, A1)), A2)  # A1, A2间相对的逆序对数
+  while i1 < len1 or i2 < len2:
+    n1, n2 = A1[i1] if i1 != len1 else inf, A2[i2] if i2 != len2 else inf
     if cmp(n1, n2):
       res.append(n1)
       i1 += 1
-      # cnt += i2
-      idx = bisect_left(A2, n1 / 2, hi=i2)
-      cnt += idx
     else:
       res.append(n2)
       i2 += 1
@@ -44,7 +59,7 @@ def getReversePairCount(A):
   cnt1, A1 = getReversePairCount(A[:half])
   cnt2, A2 = getReversePairCount(A[half:])
   # * 并 #
-  cnt3, A3 = mergeAndCountReversePair(A1, A2)
+  cnt3, A3 = mergeAndCountImportantReversePair(A1, A2)
   return cnt1 + cnt2 + cnt3, A3
 
 
@@ -63,7 +78,7 @@ if __name__ == '__main__' and ('SJDEAK' in os.environ):
     print('结果: ', Solution().reversePairs(*args), end='\n-----\n')
 
 
-  test([1, 3, 2, 3, 1])
-  test([2, 4, 3, 5, 1])
+  test(list(range(50000, -1, -1)))
+  # test([2, 4, 3, 5, 1])
 else:
   print = lambda *args, **kwargs: None
