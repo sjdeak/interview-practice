@@ -29,13 +29,13 @@ def zeroOnePackage(items, volume):
       else:
         dp[(i, s)] = dp[i - 1, s]
       ans = max(ans, dp[(i, s)])
-
   # debug('dp', dp)
   return ans
 
 
 if __name__ == '__main__':
   N, Volume = list(map(int, input().split()))
-  items = [namedtuple('item', ['vol', 'val'])(*map(int, input().split())) for i in range(N)]
+  items = [namedtuple('item', ['vol', 'val'])(*(lambda n: [n, n])(int(input())))
+           for i in range(N)]
 
-  print(zeroOnePackage(items, Volume))
+  print(Volume - zeroOnePackage(items, Volume))

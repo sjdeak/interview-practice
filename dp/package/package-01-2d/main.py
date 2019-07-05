@@ -15,7 +15,6 @@ else:
   debug = lambda *args, **kwargs: None
 
 
-# O( len(nums) * volume )
 def zeroOnePackage2D(items, volume, weight):
   dp = defaultdict(int)  # 滚动数组对内存的优化极其巨大 后续可以考虑开始用了  特别是N很大的场景
   length = len(items)
