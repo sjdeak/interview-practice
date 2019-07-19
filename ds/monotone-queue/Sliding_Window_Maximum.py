@@ -6,27 +6,19 @@ from collections import deque
 sys.setrecursionlimit(1000000)
 
 
-# def maxSlidingWindowSum(nums, k):
-#   q = deque()
-#   qSum = 0
-#   ans = -inf
-#
-#   for n in nums:
-#     if len(q) < k:
-#       qSum += n
-#       q.append(n)
-#     else:
-#       qSum -= q[0]
-#       q.popleft()
-#       qSum += n
-#       q.append(n)
-#
-#     print('q, qSum:', q, qSum)
-#
-#     if len(q) == k:
-#       ans = max(ans, qSum)
-#
-#   return ans
+# template
+def slidingWindow(A, k):
+  q = deque()
+
+  for n in A:
+    if len(q) < k:
+      q.append(n)
+    else:
+      q.popleft()
+      q.append(n)
+
+    if len(q) == k:
+      pass
 
 def minSlidingWindow(nums, k):  # -> List[int]
   # mq里存放下标 指向可能会是窗口最值的值  单增

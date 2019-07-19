@@ -1,11 +1,11 @@
-'''
+"""
 Created on Jun 18, 2013
 
 @author: Yubin Bai
 
 Segment Tree Library
 The segment tree is stored like a heap array
-'''
+"""
 import unittest
 
 
@@ -35,9 +35,9 @@ class SegmentTreeSum:
     _build(1, 0, len(A) - 1)
 
   def query(self, start, end):
-    '''
-    find sum in interval [i, j]
-    '''
+    """
+    find sum in interval [start, end]
+    """
     end = min(end, len(self.A) - 1)
     start = max(0, start)
 
@@ -53,9 +53,9 @@ class SegmentTreeSum:
     return _query(1, 0, len(self.A) - 1)
 
   def update(self, pos, value):
-    '''
+    """
     update A[pos] to a new value
-    '''
+    """
     increment = value - self.A[pos]
     self.A[pos] = value
 

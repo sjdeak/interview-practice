@@ -15,6 +15,7 @@ else:
   debug = lambda *args, **kwargs: None
 
 
+# template
 def getPrefixSum(A):
   res = [A[0]]
   for i in range(1, len(A)):
