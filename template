@@ -1,6 +1,6 @@
 # ##URL##
-import os, sys, re
-from math import *
+import os, sys, re, math
+from math import inf, ceil, floor
 from operator import itemgetter
 from functools import wraps, cmp_to_key, reduce, lru_cache
 from itertools import count, combinations, permutations
