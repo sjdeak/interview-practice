@@ -1,0 +1,147 @@
+---
+title: "2018 Round E - A.Yoghurt"
+author: Jianghan Li
+---
+
+## Python version
+# coding=utf-8
+
+# O(NlogN) Time
+def solve(N, K, A):
+    A.sort()
+    i = 0
+    days = 0
+    result = 0
+    while i < len(A):
+        consumed = 0
+        while i < len(A) and consumed < K:
+            if A[i] > days:
+                result += 1
+                consumed += 1
+            i += 1
+        days += 1
+    return result
+
+
+# O(N) Time
+def solve(N, K, A):
+    days = [0] * N
+    for a in A:
+        days[min(a, N) - 1] += 1
+    for i in range(N)[::-1]:
+        if i > 0:
+            days[i - 1] += max(days[i] - K, 0)
+        days[i] = min(days[i], K)
+    return sum(days)
+
+
+T = int(raw_input())
+for i in xrange(T):
+    N, K = map(int, raw_input().split())
+    A = map(int, raw_input().split())
+    result = solve(N, K, A)
+    out = "Case #%d: %s" % (i + 1, result)
+    print out
+	
+## Java version
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+
+    // O(NlogN) Time
+    public static int solve(int N, int K, int[] A) {
+        Arrays.sort(A);
+        int days = 0, result = 0, consumed = 0;
+        for (int i = 0; i < N; ++i) {
+            if (A[i] > days && consumed < K) {
+                result++;
+                if (++consumed == K) {
+                    consumed = 0;
+                    days++;
+                }
+            }
+        }
+        return result;
+    }
+
+    // O(N) Time
+    public static int solve2(int N, int K, int[] A) {
+        int[] days = new int[N];
+        for (int a : A) {
+            days[Math.min(a, N) - 1]++;
+        }
+        int result = 0;
+        for (int i = N - 1; i >= 0; --i) {
+            if (i > 0)
+                days[i - 1] += Math.max(days[i] - K, 0);
+            result += Math.min(days[i], K);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+        int T = in.nextInt();
+        for (int ti = 1; ti <= T; ++ti) {
+            int N = in.nextInt();
+            int K = in.nextInt();
+            int[] A = new int[N];
+            for (int i = 0; i < N; ++i) {
+                A[i] = in.nextInt();
+            }
+            int result = solve2(N, K, A);
+            System.out.println("Case #" + ti + ": " + result);
+        }
+    }
+}
+
+## C++ version
+#include <bits/stdc++.h>
+using namespace std;
+
+// O(NlogN) Time
+int solve(int &N, int &K, vector<int> &A) {
+    sort(A.begin(), A.end());
+    int days = 0, result = 0, consumed = 0;
+    for (int i = 0; i < N; ++i) {
+        if (A[i] > days && consumed < K) {
+            result++;
+            if (++consumed == K) {
+                consumed = 0;
+                days++;
+            }
+        }
+    }
+    return result;
+}
+
+// O(N) Time
+int solve2(int &N, int &K, vector<int> &A) {
+    vector<int> days(N);
+    for (int a : A) {
+        days[min(a, N) - 1]++;
+    }
+    int result = 0;
+    for (int i = N - 1; i >= 0; --i) {
+        if (i > 0)
+            days[i - 1] += max(days[i] - K, 0);
+        result += min(days[i], K);
+    }
+    return result;
+}
+
+int main() {
+    int T;
+    cin >> T;
+    for (int ti = 1; ti <= T; ++ti) {
+        int N, K;
+        cin >> N >> K;
+        vector<int> A(N);
+        for (int i = 0; i < N; ++i) {
+            cin >> A[i];
+        }
+        int res = solve2(N, K, A);
+        printf("Case #%d: %d\n", ti, res);
+    }
+}

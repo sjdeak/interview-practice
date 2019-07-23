@@ -1,0 +1,60 @@
+---
+title: "2018 Round D - Paragliding"
+author: Bin Kuang
+---
+
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAXN = 100010;
+int p[MAXN], h[MAXN], X[MAXN], Y[MAXN];
+int main() {
+  int T;
+  int iCase = 0;
+  scanf("%d", &T);
+  while (T--) {
+    iCase++;
+    int N, K;
+    scanf("%d%d", &N, &K);
+    int A1,B1,C1,A2,B2,C2,A3,B3,C3,A4,B4,C4;
+    int M1,M2,M3,M4;
+    scanf("%d%d%d%d%d%d", &p[1], &p[2], &A1, &B1, &C1, &M1);
+    scanf("%d%d%d%d%d%d", &h[1], &h[2], &A2, &B2, &C2, &M2);
+    scanf("%d%d%d%d%d%d", &X[1], &X[2], &A3, &B3, &C3, &M3);
+    scanf("%d%d%d%d%d%d", &Y[1], &Y[2], &A4, &B4, &C4, &M4);
+    for (int i = 3; i <= N; i++) {
+      p[i] = ((long long)A1*p[i-1] + (long long)B1*p[i-2] + C1)%M1 + 1;
+      h[i] = ((long long)A2*h[i-1] + (long long)B2*h[i-2] + C2)%M2 + 1;
+    }
+    for (int i = 3; i <= K; i++) {
+      X[i] = ((long long)A3*X[i-1] + (long long)B3*X[i-2] + C3)%M3 + 1;
+      Y[i] = ((long long)A4*Y[i-1] + (long long)B4*Y[i-2] + C4)%M4 + 1;
+    }
+
+    vector<pair<int, int>> vec1, vec2;
+    for (int i = 1; i <= N; i++) {
+      vec1.push_back(make_pair(p[i] + h[i], h[i] - p[i]));
+    }
+    for (int i = 1; i <= K; i++) {
+      vec2.push_back(make_pair(X[i] + Y[i], Y[i] - X[i]));
+    }
+    int ans = 0;
+    sort(vec1.begin(), vec1.end());
+    reverse(vec1.begin(), vec1.end());
+    sort(vec2.begin(), vec2.end());
+    reverse(vec2.begin(), vec2.end());
+    int id = 0;
+    int maxY = -0x3f3f3f3f;
+    for (int i = 0; i < K; i++) {
+      while (id < N && vec1[id].first >= vec2[i].first) {
+        maxY = max(maxY, vec1[id].second);
+        id++;
+      }
+      if (maxY >= vec2[i].second) {
+        ans++;
+      }
+    }
+    printf("Case #%d: %d\n", iCase, ans);
+  }
+  return 0;
+}

@@ -1,0 +1,55 @@
+---
+title: "2018 Round F - A"
+author: Ran Wang
+---
+
+#include <iostream>
+#include <unordered_set>
+#include <algorithm>
+#include <vector>
+using namespace std;
+// string GetSig(const string& a, int start, int end) {
+//     string sub = a.substr(start, end - start);
+//     sort(sub.begin(), sub.end());
+//     return sub;
+// }
+
+string GetSig(const string& a, int start, int end, vector<int>& f) {
+    int current = a[end - 1] - 'A';
+    f[current]++;
+    string result = "";
+    for(int i = 0; i < 26; i++) {
+        result += to_string(f[i]) + ",";
+    }
+    return result;
+}
+
+int main() {
+    int tcase;
+    ios::sync_with_stdio(false);
+    cin >> tcase;
+    for(int tc = 1; tc <= tcase; tc++) {
+        string a, b;
+        int length;
+        cin >> length >> a >> b;
+        unordered_set<string> all_b;
+        for(int i = 0; i < length; i++) {
+            vector<int> f(26);
+            for(int j = i + 1; j <= length; j++) {
+                all_b.insert(GetSig(b, i, j, f));
+            }
+        }
+        int result = 0;
+        for(int i = 0; i < length; i++) {
+            vector<int> f(26);
+            for(int j = i + 1; j <= length; j++) {
+                string sig = GetSig(a, i, j, f);
+                if (all_b.find(sig) != all_b.end()) {
+                    result++;
+                }
+            }
+        }
+        cout << "Case #" << tc << ": " << result << endl;
+    }
+    return 0;
+}

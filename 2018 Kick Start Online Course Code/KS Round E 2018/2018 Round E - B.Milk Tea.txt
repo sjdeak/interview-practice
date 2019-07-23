@@ -1,0 +1,30 @@
+---
+title: "2018 Round E - B.Milk Tea (Python)"
+author: Jianghan Li
+---
+
+# coding=utf-8
+
+def solve(N, M, P, friends, forbbiden):
+    cost_of_option = [0] * P  # cost if option-i choose 0
+    for i in xrange(P):
+        cost_of_option[i] = sum(f[i] == '1' for f in friends)
+    best = [[0, ""]]  # [[cost,type]]
+    for i in xrange(P):
+        cur = []
+        for cost, typ in best:
+            cur.append([cost + cost_of_option[i], typ + '0'])
+            cur.append([cost + N - cost_of_option[i], typ + '1'])
+        best = sorted(cur)[:101]
+    for cost, typ in best:
+        if typ not in forbbiden:
+            return cost
+
+T = int(raw_input())
+for ti in xrange(T):
+    N, M, P = map(int, raw_input().split())
+    friends = [raw_input().strip() for i in xrange(N)]
+    forbbiden = set(raw_input().strip() for i in xrange(M))
+
+    result = solve(N, M, P, friends, forbbiden)
+    print "Case #%d: %s" % (ti + 1, result)

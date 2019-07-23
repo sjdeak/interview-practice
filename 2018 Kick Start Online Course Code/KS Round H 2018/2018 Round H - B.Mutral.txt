@@ -1,0 +1,51 @@
+---
+title: "2018 Round H - B.Mutral (C++)"
+author: Jianghan Li
+---
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// O(N) Time
+int solve(int &N, string &A) {
+    int half = (N + 1) / 2, best = 0, window = 0;
+    for (int i = 0; i < N; ++i) {
+        window += A[i] - '0';
+        if (i >= half) window -= A[i - half] - '0';
+        best = max(best, window);
+    }
+    return best;
+}
+
+int main() {
+    // freopen("sample.in", "r", stdin);
+    int T; cin >> T;
+    for (int ti = 1; ti <= T; ++ti) {
+        int N; cin >> N;
+        string A; cin >> A;
+        int res = solve(N, A);
+        printf("Case #%d: %d\n", ti, res);
+    }
+}
+
+---
+title: "2018 Round H - B.Mural (Python)"
+author: Jianghan Li
+---
+
+# coding=utf-8
+
+def solve(N, A):
+    half = (N + 1) / 2
+    best = window = sum(A[:half])
+    for i in range(half, N):
+        window += A[i] - A[i - half]
+        best = max(best, window)
+    return best
+
+T = int(raw_input().strip())
+for i in xrange(T):
+    N = int(raw_input().strip())
+    A = map(int, raw_input().strip())
+    res = solve(N, A)
+    print "Case #%d: %s" % (i + 1, res)

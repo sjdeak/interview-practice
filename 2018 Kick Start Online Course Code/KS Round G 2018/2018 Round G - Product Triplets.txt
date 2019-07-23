@@ -1,0 +1,46 @@
+---
+title: "2018 Round G - Product Triplets"
+author: Bin Kuang
+---
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int a[7010];
+int num[200010];
+int main() {
+  int T;
+  int iCase = 0;
+  scanf("%d", &T);
+  while (T--) {
+    iCase++;
+    int n;
+    scanf("%d", &n);
+    memset(num, 0, sizeof(num));
+    for (int i = 0; i < n; i++) {
+      scanf("%d", &a[i]);
+      num[a[i]]++;
+    }
+    long long ans = 0;
+    for (int i = 0; i < n; i++) {
+      for (int j = i+1; j < n; j++) {
+        if (a[i] == 1 || a[j] == 1 || a[i] == 0 || a[j] == 0) {
+          continue;
+        }
+        if ((long long) a[i]*a[j] > 200000) {
+          continue;
+        }
+        ans += num[a[i] * a[j]];
+      }
+    }
+    ans += 1LL*num[1]*(num[1]-1) * (num[1]-2) / 6;
+    for (int i = 2; i <= 200000; i++) {
+      ans += 1LL * num[1] * num[i] * (num[i]-1) / 2;
+    }
+    // Consider 0.
+    ans += 1LL * num[0] * (num[0]-1) * (num[0]-2) / 6;
+    ans += 1LL * num[0] * (num[0]-1) / 2 * (n - num[0]);
+    printf("Case #%d: %lld\n", iCase, ans);
+  }
+  return 0;
+}

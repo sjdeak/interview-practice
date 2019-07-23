@@ -1,0 +1,83 @@
+---
+title: "2018 Round A - Even Digits"
+author: Bin Kuang
+---
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+long long getPre(long long n) {
+  int cnt = 0;
+  int num[20];
+  do {
+    num[cnt++] = n%10;
+    n /= 10;
+  } while (n);
+
+  for (int i = cnt-1; i >= 0; i--) {
+    if (num[i]&1) {
+      num[i]--;
+      for (int j = i-1; j >= 0; j--) {
+        num[j] = 8;
+      }
+      break;
+    }
+  }
+  long long ans = 0;
+  for (int i = cnt-1; i >= 0; i--) {
+    ans = ans*10 + num[i];
+  }
+
+  return ans;
+}
+
+long long getNext(long long n) {
+  int cnt = 0;
+  int num[20];
+  do {
+    num[cnt++] = n%10;
+    n /= 10;
+  } while (n);
+
+  // add a leading zero.
+  num[cnt++] = 0;
+
+  for (int i = cnt-1; i >= 0; i--) {
+    if (num[i]&1) {
+      if (num[i] == 9) {
+        int j = i+1;
+        while (num[j] == 8) j++;
+        num[j] += 2;
+        while((--j) >= 0) {
+          num[j] = 0;
+        }
+      } else {
+        num[i]++;
+        for (int j = i-1; j >= 0; j--) {
+          num[j] = 0;
+        }
+      }
+      break;
+    }
+  }
+  long long ans = 0;
+  for (int i = cnt-1; i >= 0; i--) {
+    ans = ans*10 + num[i];
+  }
+
+  return ans;
+}
+
+int main() {
+  int T;
+  int iCase = 0;
+  scanf("%d", &T);
+  while (T--) {
+    iCase++;
+    long long n;
+    scanf("%lld", &n);
+    printf("Case #%d: %lld\n", iCase, min(n - getPre(n), getNext(n) - n));
+  }
+  return 0;
+}

@@ -1,0 +1,112 @@
+---
+title: "2018 Round G - Cave Escape"
+author: Bin Kuang
+---
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int N,M,E,Sx,Sy,Tx,Ty;
+int a[110][110];
+int b[110][110];
+pair<int, int> traps[20];
+int mpTraps[110][110];
+bool vis[(1<<15) + 10];
+bool used[110][110];
+int Move[][2] = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+int bit[20];
+long long gao() {
+  bit[0] = 1;
+  for (int i = 1; i <= 15; i++) {
+    bit[i] = bit[i-1]<<1;
+  }
+  long long ans = -1;
+
+  int nTraps = 0;
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < M; j++) {
+      if (a[i][j] < 0 && a[i][j] > -100000) {
+        traps[nTraps++] = make_pair(i, j);
+        mpTraps[i][j] = nTraps-1;
+      }
+    }
+  }
+
+  queue<int>q;
+  memset(vis, false, sizeof(vis));
+  q.push(0);
+  vis[0] = true;
+  while (!q.empty()) {
+    int now = q.front();
+    q.pop();
+
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < M; j++) {
+        b[i][j] = a[i][j];
+      }
+    }
+    long long sum = E;
+    for (int i = 0; i < nTraps; i++) {
+      if (now&bit[i]) {
+        sum += a[traps[i].first][traps[i].second];
+        b[traps[i].first][traps[i].second] = 0;
+      }
+    }
+
+    vector<int> nextTrap;
+
+    queue<pair<int,int>> que;
+    que.push(make_pair(Sx, Sy));
+    memset(used, false, sizeof(used));
+    used[Sx][Sy] = true;
+    while (!que.empty()) {
+      pair<int, int> tmp = que.front();
+      que.pop();
+      for (int i = 0; i < 4; i++) {
+        int nx = tmp.first + Move[i][0];
+        int ny = tmp.second + Move[i][1];
+        if (nx < 0 || nx >= N || ny < 0 || ny >= M) continue;
+        if (used[nx][ny]) continue;
+        used[nx][ny] = true;
+        if (b[nx][ny] < 0) {
+          if (b[nx][ny] > -100000) {
+            nextTrap.push_back(mpTraps[nx][ny]);
+          }
+          continue;
+        }
+        sum += b[nx][ny];
+        used[nx][ny] = true;
+        que.push(make_pair(nx, ny));
+      }
+    }
+    if (used[Tx][Ty]) {
+      ans = max(ans, sum);
+    }
+    for (int i = 0; i < nextTrap.size(); i++) {
+      int t = nextTrap[i];
+      if (sum + a[traps[t].first][traps[t].second] >= 0) {
+        if (vis[now|bit[t]])continue;
+        vis[now|bit[t]] = true;
+        q.push(now|bit[t]);
+      }
+    }
+  }
+  return ans;
+}
+int main() {
+  int T;
+  int iCase = 0;
+  scanf("%d", &T);
+  while (T--) {
+    iCase++;
+    scanf("%d%d%d%d%d%d%d", &N, &M, &E, &Sx, &Sy, &Tx, &Ty);
+    Sx--; Sy--; Tx--; Ty--;
+    for (int i = 0; i < N; i++) {
+      for (int j = 0; j < M; j++) {
+        scanf("%d", &a[i][j]);
+      }
+    }
+    printf("Case #%d: %lld\n", iCase, gao());
+  }
+  return 0;
+}

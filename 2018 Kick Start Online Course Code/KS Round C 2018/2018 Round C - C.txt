@@ -1,0 +1,60 @@
+---
+title: "2018 Round C - C"
+author: Ran Wang
+---
+
+#include <iostream>
+#include <math.h>
+#define MAX_N 1000000
+using namespace std;
+const long long MOD = 1000000007;
+
+long long fast_pow(long long x, long long n) {
+    if (n == 0) {
+        return 1;
+    }
+    long long ans = fast_pow(x, n / 2);
+    if (n % 2 == 0) {
+        return (ans * ans) % MOD;
+    }
+    return ((ans * ans) % MOD * x) % MOD;
+}
+
+int main() {
+    long long A[MAX_N + 2];
+    int tcase;
+    ios::sync_with_stdio(false);
+    cin >> tcase;
+    for(int tc = 1; tc <= tcase; tc++) {
+        long long N, K, x1, y1, C, D, E1, E2, F;
+        cin >> N >> K >> x1 >> y1 >> C >> D >> E1 >> E2 >> F;
+        A[1] = (x1 + y1) % F; // Don't forget the F here!
+        long long xi_last = x1;
+        long long yi_last = y1;
+        for(int i = 2; i <= N; i++) {
+             long long xi, yi;
+             xi = (C * xi_last + D * yi_last + E1) % F;
+             yi = (D * xi_last + C * yi_last + E2) % F;
+             xi_last = xi;
+             yi_last = yi;
+             A[i] = (xi + yi) % F;
+        }
+
+        long long result = 0;
+        long long last_sum = 0;
+        for(int i = 1; i <= N; i++) {
+            if (i == 1) {
+                last_sum += K;
+            } else {
+                last_sum += i * (fast_pow(i, K) - 1) % MOD
+                    * fast_pow(i - 1, MOD - 2) % MOD;
+            }
+            last_sum %= MOD;
+            long long temp = last_sum * (N - i + 1) % MOD;
+            result += (temp * A[i] % MOD);
+            result %= MOD;
+        }
+        cout << "Case #" << tc << ": " << result << endl;
+    }
+    return 0;
+}

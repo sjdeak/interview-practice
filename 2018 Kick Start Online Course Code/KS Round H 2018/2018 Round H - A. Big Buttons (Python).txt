@@ -1,0 +1,23 @@
+---
+title: "2018 Round H - A. Big Buttons (Python)"
+author: Jianghan Li
+---
+
+# coding=utf-8
+
+def solve(N, P, forbidden):
+    seen = set()
+    res = 2 ** N
+    for s in sorted(forbidden, key=len):
+        if any(s[:i + 1] in seen for i in xrange(len(s))):
+            continue
+        seen.add(s)
+        res -= 2**(N - len(s))
+    return res
+
+T = int(raw_input().strip())
+for ti in xrange(T):
+    N, P = map(int, raw_input().strip().split())
+    forbidden = [raw_input().strip() for _ in xrange(P)]
+    res = solve(N, P, forbidden)
+    print "Case #%d: %s" % (ti + 1, res)

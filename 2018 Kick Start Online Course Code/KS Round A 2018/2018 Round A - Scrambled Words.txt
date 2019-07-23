@@ -1,0 +1,92 @@
+---
+title: 2018 Round A - Scrambled Words
+author: Bin Kuang
+---
+
+#include <bits/stdc++.h>
+using namespace std;
+
+char str[1000010];
+int X[1000010];
+
+const int SEED = 13331;
+unsigned long long getHash(char start, char end, int num[]) {
+  unsigned long long ret = start*SEED + end;
+  for (int i = 0; i < 26; i++) {
+    ret = ret*SEED + num[i];
+  }
+  return ret;
+}
+
+char dict[100010];
+unsigned long long dictHash[20010];
+int num[26];
+
+int Len[20010];
+
+
+int main() {
+  int T;
+  int iCase = 0;
+  scanf("%d", &T);
+  while (T--) {
+    iCase++;
+    int L;
+    scanf("%d", &L);
+    int totLen = 0;
+    for (int i = 0; i < L; i++) {
+      scanf("%s", dict);
+      int len = strlen(dict);
+      memset(num, 0, sizeof(num));
+      for (int j = 1; j < len-1; j++) {
+        num[dict[j]-'a']++;
+      }
+      dictHash[i] = getHash(dict[0], dict[len-1], num);
+      Len[totLen++] = len;
+    }
+    int N, A, B, C, D;
+    cin>>str[0];
+    cin>>str[1];
+    scanf("%d%d%d%d%d", &N, &A, &B, &C, &D);
+    X[0] = str[0];
+    X[1] = str[1];
+    for (int i = 2; i < N; i++) {
+      X[i] = ((long long) A * X[i-1] + (long long) B * X[i-2] + C)%D;
+      str[i] = (char) (97 + X[i]%26);
+    }
+    str[N] = 0;
+
+    sort(Len, Len + totLen);
+    totLen = unique(Len, Len + totLen) - Len;
+
+    unordered_map<unsigned long long, int>mp;
+    for (int i = 0; i < L; i++) {
+      mp[dictHash[i]]++;
+    }
+    int ans = 0;
+    for (int j = 0; j < totLen; j++) {
+      int len = Len[j];
+      if (len > N) continue;
+      memset(num, 0, sizeof(num));
+      for (int i = 1; i < len-1; i++) {
+        num[str[i] - 'a']++;
+      }
+      unsigned long long tmp1 = getHash(str[0], str[len-1], num);
+      if (mp.count(tmp1)) {
+        ans += mp[tmp1];
+        mp.erase(tmp1);
+      }
+      for (int i = len; i < N; i++) {
+        num[str[i-1] - 'a']++;
+        num[str[i-len+1] - 'a']--;
+        unsigned long long tmp = getHash(str[i-len+1], str[i], num);
+        if (mp.count(tmp)) {
+          ans += mp[tmp];
+          mp.erase(tmp);
+        }
+      }
+    }
+    printf("Case #%d: %d\n", iCase, ans);
+  }
+  return 0;
+}
