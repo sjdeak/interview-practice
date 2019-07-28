@@ -46,7 +46,7 @@ def dp(nowAt, nowColor, sVis, visCnt):  # sVis: 序列化后的vis
 
   # debug('choices:', choices)
   res = min(choices or [inf])
-  # debug('nowAt, nowColor, sVis, visCnt, ⭐res:', nowAt, nowColor, sVis, visCnt, '⭐', res)
+  # debug('nowAt, nowColor, sVis, visCnt, res:', nowAt, nowColor, sVis, visCnt, '', res)
   return res
 
 

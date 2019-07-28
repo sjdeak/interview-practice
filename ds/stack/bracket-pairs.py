@@ -12,6 +12,7 @@ else:
   debug = lambda *args, **kwargs: None
 
 
+# 🗳
 class Stack:
   def __init__(self):
     self.data = []
