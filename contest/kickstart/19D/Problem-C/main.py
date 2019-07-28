@@ -21,4 +21,23 @@ else:
 if __name__ == '__main__':
   T = int(input())
   for caseIndex in range(T):
-    print('Case #{}:'.format(caseIndex + 1))
+    K, N = list(map(int, input().split()))
+    Spots = list(map(int, input().split()))
+    Costs = list(map(int, input().split()))
+
+    ans = inf
+
+    for j in range(N):  # 枚举仓库地点
+      res = Costs[j]
+      tmpCosts = Costs.copy()
+      for i, tmpCost in enumerate(tmpCosts):
+        tmpCosts[i] += abs(Spots[j] - Spots[i])
+      # debug('base, tmpCosts:', res, tmpCosts)
+      tmpCosts = tmpCosts[:j] + tmpCosts[j + 1:]
+      res += sum(sorted(tmpCosts)[:K])
+
+      # debug('res:', res)
+
+      ans = min(ans, res)
+
+    print('Case #{}: {}'.format(caseIndex + 1, ans))

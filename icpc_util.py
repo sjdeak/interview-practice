@@ -2,7 +2,7 @@ import inspect
 
 
 # https://stackoverflow.com/questions/6200270/decorator-to-print-function-call-details-parameters-names-and-effective-values
-def debug_func(func):
+def dump_args(func):
   """
   Decorator to print function call details - parameters names and effective values.
   """

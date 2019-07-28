@@ -7,8 +7,12 @@ from collections import namedtuple, defaultdict, Counter, deque
 from queue import Queue
 from bisect import bisect_left, bisect_right
 from copy import deepcopy
+
 sys.setrecursionlimit(1000000)
+
+
 class CustomException(Exception): pass
+
 
 if os.getenv('SJDEAK'):
   sys.stdin = open(os.path.expanduser('./in.txt'))
@@ -76,16 +80,33 @@ def isXOREven(n):
   return Counter(bin(n)[2:])['1'] % 2 == 0
 
 
-def getLargestSubInterval():
-  res = 0
-  for i in range(N):
-    for j in range(N - 1, i - 1, -1):
-      if j - i + 1 < res:
-        continue
-      if isXOREven(st.query(i, j)):
-        # debug('i, j, st.query(i,j):', i,j, bin(st.query(i, j)))
-        res = max(res, j - i + 1)
-  return res
+# @dump_args
+def getLargestSubInterval(left, right):
+  if left == right:
+    return int(isXOREven(st.query(left, right)))
+
+  mid = left + (right - left) // 2
+
+  leftRes = getLargestSubInterval(left, mid)
+  rightRes = getLargestSubInterval(mid + 1, right)
+
+  midRes = 0
+  if isXOREven(st.query(mid, mid)):
+    for j in range(mid, left - 1, -1):
+      if isXOREven(st.query(j, mid)):
+        midRes += 1
+      else:
+        break
+    for j in range(mid + 1, right + 1):
+      if isXOREven(st.query(mid, j)):
+        midRes += 1
+      else:
+        break
+  # print('midRes:', midRes)
+
+  # debug('left, right, leftRes, midRes, rightRes:', left, right, leftRes, midRes, rightRes)
+  return max(leftRes, midRes, rightRes)
+
 
 if __name__ == '__main__':
   T = int(input())
@@ -98,6 +119,6 @@ if __name__ == '__main__':
       P, V = list(map(int, input().split()))
       st.update(P, V)
       # debug('st.A:', st.A)
-      ans.append(getLargestSubInterval())
+      ans.append(getLargestSubInterval(0, N - 1))
 
     print('Case #{}:'.format(caseIndex + 1), *ans)

@@ -7,8 +7,12 @@ from collections import namedtuple, defaultdict, Counter, deque
 from queue import Queue
 from bisect import bisect_left, bisect_right
 from copy import deepcopy
+
 sys.setrecursionlimit(1000000)
+
+
 class CustomException(Exception): pass
+
 
 if os.getenv('SJDEAK'):
   sys.stdin = open(os.path.expanduser('./in.txt'))
@@ -85,7 +89,9 @@ def getLargestSubInterval():
       if isXOREven(st.query(i, j)):
         # debug('i, j, st.query(i,j):', i,j, bin(st.query(i, j)))
         res = max(res, j - i + 1)
+
   return res
+
 
 if __name__ == '__main__':
   T = int(input())
