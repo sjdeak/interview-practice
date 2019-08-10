@@ -14,7 +14,7 @@ refreshGlobals()
 #  a bool
 # def isBadVersion(version):
 
-# lower_bound
+# 🗳  lower_bound
 # A: "GGGBBBB"   且保证有解
 class Solution(object):
   def firstBadVersion(self, n):
