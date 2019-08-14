@@ -12,7 +12,7 @@ def dump_args(func):
     func_args_str = ', '.join('{} = {!r}'.format(*item) for item in func_args.items())
     ret = func(*args, **kwargs)
     print('[FUNC]:', f'{func.__module__}.{func.__qualname__} ( {func_args_str} )')
-    print('    -> {ret}')
+    print(f'    -> {ret}')
     return ret
 
   return wrapper

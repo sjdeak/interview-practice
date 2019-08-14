@@ -12,6 +12,8 @@ from copy import deepcopy
 sys.setrecursionlimit(1000000)
 
 
+# 真正的LIS 子串不要求连续
+# 不能用单调栈做，上升子串中A[i]的下一项未必是他的nextGreaterElement
 class Solution:
   def lengthOfLIS(self, A):  # -> int
     dp = {0: 1}
