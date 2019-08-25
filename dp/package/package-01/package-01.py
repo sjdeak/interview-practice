@@ -25,10 +25,10 @@ def zeroOnePackage(items, volume):
   for i in range(length):
     for s in range(1, volume + 1):  # s: size
       if items[i].vol <= s:
-        dp[(i, s)] = max(dp[i - 1, s], dp[i - 1, s - items[i].vol] + items[i].val)
+        dp[i, s] = max(dp[i - 1, s], dp[i - 1, s - items[i].vol] + items[i].val)
       else:
-        dp[(i, s)] = dp[i - 1, s]
-      ans = max(ans, dp[(i, s)])
+        dp[i, s] = dp[i - 1, s]
+      ans = max(ans, dp[i, s])
 
   # debug('dp', dp)
   return ans
