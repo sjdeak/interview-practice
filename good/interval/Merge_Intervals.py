@@ -45,9 +45,6 @@ class Solution:
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
   from utils.tree import TreeNode, array2TreeNode
   from icpc_util import dump_args
-  import doctest
-
-  doctest.testmod()
 
 
   def test(*args):
