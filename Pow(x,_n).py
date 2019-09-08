@@ -13,9 +13,20 @@ sys.setrecursionlimit(1000000)
 
 
 class Solution:
+  # template 快速幂
   def myPow(self, x, n):  # -> float
+    res = 1
+    p = x
+    t = abs(n)
+    bitLen = len(bin(t)[2:])
+    while t:
+      # print('k, res, p, bin(absN):', k, res, p, bin(t))
+      if t & 1:
+        res *= p
+      p *= p
+      t >>= 1 # 位运算真的很酷
 
-    pass
+    return 1 / res if n < 0 else res
 
 
 if __name__ == '__main__' and ('SJDEAK' in os.environ):
@@ -28,8 +39,9 @@ if __name__ == '__main__' and ('SJDEAK' in os.environ):
     print('结果: ', Solution().myPow(*args), end='\n-----\n')
 
 
-  test()
-  test()
+  test(2.00000, 10)
+  test(2.10000, 3)
+  test(2.00000, -2)
 else:
   print = lambda *args, **kwargs: None
   dump_args = lambda func: func
